@@ -14,5 +14,5 @@ RUN  go get -u golang.org/x/lint/golint
 
 COPY . .
 RUN go get -v
-RUN chmod 777 -R /go/pkg/mod/cache
+RUN chmod 777 -R /go/pkg/mod/
 RUN go get movies-parser
