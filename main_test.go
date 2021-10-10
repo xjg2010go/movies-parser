@@ -1,9 +1,5 @@
 package main
 
-import (
-	"testing"
-)
-
 const HTML = `
 <div class="plot_summary ">
     <div class="summary_text">
@@ -26,29 +22,15 @@ const HTML = `
         </a> </div>
 </div>
 `
-
 func TestParseMovie(t *testing.T) {
-	expectedMovie := Movie{
-		Title:       "John Wick (2014)",
-		ReleaseDate: "24 October 2014 (USA)",
-		Description: "An ex-hit-man comes out of retirement to track down the gangsters that killed his dog and took everything from him.",
-	}
+		expectedMovie := Movie{
+			Title: "John Wick (2014)"
+			ReleaseDate: "24 October 2014(USA)"
+			Description: "An ex-hit-man comes...."
+		}
 
-	currentMovie, err := ParseMovie(HTML)
-
-	if err != nil {
-		t.Error("Should return nil value")
-	}
-
-	if expectedMovie.Title != currentMovie.Title {
-		t.Errorf("returned wrong title: got %v want %v", currentMovie.Title, expectedMovie.Title)
-	}
-
-	if expectedMovie.ReleaseDate != currentMovie.ReleaseDate {
-		t.Errorf("returned wrong release date: got %v want %v", currentMovie.ReleaseDate, expectedMovie.ReleaseDate)
-	}
-
-	if expectedMovie.Description != currentMovie.Description {
-		t.Errorf("returned wrong description: got %v want %v", currentMovie.Description, expectedMovie.Description)
-	}
+		currentMovie, err := ParseMovie(HTML)
+		if exceptedMovie.Title != currentMovie.Title {
+			t.Errorf("returned wrong title: got %v want %v", currentMovie.Title, exceptedMovie.Title)
+		}
 }
