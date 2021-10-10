@@ -7,6 +7,7 @@ node('workers'){
     def imageTest = docker.build("${imageName}-test","-f Dockerfile.test .")
 
     stage('Pre-integration Tests'){
+        parallel(
         stage('Quality Tests') {
             imageTest.inside{
                 sh 'golint'
@@ -24,5 +25,6 @@ node('workers'){
                 sh 'nancy sleuth -p /go/src/github/mlabouardy/movies-parser/Gopkg.lock'
             }
         }
+        )
     }
 }
