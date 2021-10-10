@@ -22,15 +22,21 @@ const HTML = `
         </a> </div>
 </div>
 `
-func TestParseMovie(t *testing.T) {
-		expectedMovie := Movie{
-			Title: "John Wick (2014)"
-			ReleaseDate: "24 October 2014(USA)"
-			Description: "An ex-hit-man comes...."
-		}
 
-		currentMovie, err := ParseMovie(HTML)
-		if exceptedMovie.Title != currentMovie.Title {
-			t.Errorf("returned wrong title: got %v want %v", currentMovie.Title, exceptedMovie.Title)
-		}
+func TestParseMovie(t *testing.T) {
+	expectedMovie := Movie{
+		Title:       "John Wick (2014)",
+		ReleaseDate: "24 October 2014(USA)",
+		Description: "An ex-hit-man comes....",
+	}
+
+	currentMovie, err := ParseMovie(HTML)
+
+	if err != nil {
+		t.Error("Should return nil value")
+	}
+
+	if exceptedMovie.Title != currentMovie.Title {
+		t.Errorf("returned wrong title: got %v want %v", currentMovie.Title, exceptedMovie.Title)
+	}
 }
