@@ -8,23 +8,21 @@ node('workers'){
 
     stage('Pre-integration Tests'){
         parallel(
-        stage('Quality Tests') {
-            imageTest.inside{
-                sh 'golint'
+            'Quality Tests': {
+                imageTest.inside{
+                    sh 'golint'
+                }
+            },
+            'Unit Tests': {
+                imageTest.inside{
+                    sh 'go test'
+                }
+            },
+            'Security Tests': {
+                imageTest.inside('-u root:root'){
+                    sh 'nancy sleuth -p /go/src/github/mlabouardy/movies-parser/Gopkg.lock'
+                }
             }
-        }
-
-        stage('Unit Tests') {
-            imageTest.inside{
-                sh 'go test'
-            }
-        }
-
-        stage('Security Tests') {
-            imageTest.inside('-u root:root'){
-                sh 'nancy sleuth -p /go/src/github/mlabouardy/movies-parser/Gopkg.lock'
-            }
-        }
         )
     }
 }
