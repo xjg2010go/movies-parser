@@ -1,4 +1,7 @@
-def imageName = 'lucas/movies-parser'
+def imageName = 'movies-parser'
+def registry = '741767866316.dkr.ecr.us-east-1.amazonaws.com'
+def region = 'us-east-1'
+
 
 node('workers'){
     stage('Checkout'){
@@ -29,4 +32,30 @@ node('workers'){
     stage('Build'){
         docker.build(imageName)
     }
+
+    stage('Push'){
+        sh "\$(aws ecr get-login --no-include-email --region ${region}) || true"
+        docker.withRegistry("https://${registry}") {
+            docker.image(imageName).push(commitID())
+
+            if (env.BRANCH_NAME == 'develop') {
+                docker.image(imageName).push('develop')
+            }
+
+            if (env.BRANCH_NAME == 'preprod') {
+                docker.image(imageName).push('preprod')
+            }
+
+            if (env.BRANCH_NAME == 'master') {
+                docker.image(imageName).push('latest')
+            }
+        }
+    }
+
+    stage('Analyze'){
+        def scannedImage = "${registry}/${imageName}:${commitID()} ${workspace}/Dockerfile"
+        writeFile file: 'images', text: scannedImage
+        anchore name: 'images',forceAnalyze: true
+    }
+
 }
