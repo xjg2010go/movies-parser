@@ -38,7 +38,7 @@ node('workers'){
         docker.withRegistry("https://${registry}") {
             docker.image(imageName).push(commitID())
 
-            if (env.BRANCH_NAME == 'develop') {
+            if (env.BRANCH_NAME == 'dev') {
                 docker.image(imageName).push('develop')
             }
 
@@ -46,7 +46,7 @@ node('workers'){
                 docker.image(imageName).push('preprod')
             }
 
-            if (env.BRANCH_NAME == 'master') {
+            if (env.BRANCH_NAME == 'main') {
                 docker.image(imageName).push('latest')
             }
         }
